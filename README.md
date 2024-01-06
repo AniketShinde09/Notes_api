@@ -16,7 +16,7 @@ This project is a simple note-taking application API developed using Node.js and
 
 1. Clone the repository:
 
-   git clone https://github.com/your-username/notes-app-api.git
+   git clone https://github.com/AniketShinde09/Notes_api
 
    cd notes-app-api
 
@@ -92,11 +92,7 @@ Creates a new note in the notes table. `id` is auto-incremented
 #### Request
 
 ```
-{
-  "noteId": 5,
-  "noteTitle": "Note5",
-  "noteContent": "Learn HTML"
-}
+{"noteId": 9, "noteTitle": "New Note", "noteContent": "This is the content of the new note."}
 ```
 
 #### Response
@@ -138,11 +134,7 @@ Updates the details of a note in the Notes table based on the note ID
 #### Request
 
 ```
-{
-  "noteId": 6,
-  "noteTitle": "Note6",
-  "noteContent": "Learn CSS"
-}
+{"noteTitle": "Updated Title", "noteContent": "Updated Content"}
 ```
 
 #### Response

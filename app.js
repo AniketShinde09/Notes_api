@@ -110,14 +110,27 @@ app.put("/notes/:noteId/", async (request, response) => {
 });
 
 app.delete("/notes/:noteId/", async (request, response) => {
-  const { noteId } = request.params;
-  const deleteNoteQuery = `
-  DELETE FROM
-    notes
-  WHERE
-    id = ${noteId};`;
-  await database.run(deleteNoteQuery);
-  response.send("Note Removed");
+  try {
+    const { noteId } = request.params;
+
+    const deleteNoteQuery = `
+      DELETE FROM notes
+      WHERE id = ?;
+    `;
+
+    console.log("Executing query:", deleteNoteQuery); // Log the query for debugging purposes
+
+    const result = await database.run(deleteNoteQuery, [noteId]);
+
+    if (result.changes > 0) {
+      response.send("Note Removed");
+    } else {
+      response.status(404).send("Note not found");
+    }
+  } catch (error) {
+    console.error("Error deleting note:", error);
+    response.status(500).send(`Error: ${error.message}`);
+  }
 });
 
 module.exports = app;
