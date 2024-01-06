@@ -1,0 +1,12 @@
+### 
+GET http://localhost:3000/notes/
+
+### 
+curl -X POST -H "Content-Type: application/json" -d 
+'{"noteId": 5, "noteTitle": "New Note", "noteContent": "This is the content of the new note."}'
+ http://localhost:3000/notes/
+
+
+
+###
+GET  http://localhost:3000/notes/1
