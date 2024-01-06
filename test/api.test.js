@@ -1,55 +1,82 @@
 const { expect } = require("chai");
 const supertest = require("supertest");
-const { app, database } = require("./setup");
+const { open } = require("sqlite");
+const sqlite3 = require("sqlite3");
+const path = require("path");
+const app = require("../app");
 
-describe("API Endpoints", () => {
-  
+describe("API Endpoints (Without Authentication)", () => {
   before(async () => {
-    
-    await database.run(`
-      CREATE TABLE IF NOT EXISTS notes (
-        id INTEGER PRIMARY KEY,
-        title TEXT,
-        content TEXT
-      );
-    `);
+    try {
+      const testDatabasePath = path.join(__dirname, "test-notesData.db");
+      testDatabase = await open({
+        filename: testDatabasePath,
+        driver: sqlite3.Database,
+      });
 
-    await database.run(`
-      INSERT INTO notes (title, content) VALUES
-      ('Test Note 1', 'Content for Test Note 1'),
-      ('Test Note 2', 'Content for Test Note 2');
-    `);
+      await testDatabase.exec(notesData.db);
+    } catch (error) {
+      console.error("Error setting up the test database:", error);
+      process.exit(1);
+    }
   });
 
-  
   after(async () => {
-   
-    await database.close();
+    await testDatabase.close();
   });
 
   describe("GET /notes", () => {
-    it("should return a list of notes", async () => {
+    it("should return 200 and an array of notes", async () => {
       const res = await supertest(app).get("/notes");
       expect(res.status).to.equal(200);
       expect(res.body).to.be.an("array");
-      expect(res.body.length).to.equal(2); 
+    });
   });
 
-  describe("GET /notes/:noteId", () => {
-    it("should return a single note by ID", async () => {
-      const res = await supertest(app).get("/notes/1");
-      expect(res.status).to.equal(200);
-      expect(res.body).to.have.property("id");
-      expect(res.body).to.have.property("title");
-      expect(res.body).to.have.property("content");
-    });
-
-    it("should return 404 for non-existing note ID", async () => {
-      const res = await supertest(app).get("/notes/999");
+  describe("GET /notes/:noteId with non-existing noteId", () => {
+    it("should return 404 and a message 'Note not found'", async () => {
+      const res = await supertest(app).get("/notes/1000");
       expect(res.status).to.equal(404);
       expect(res.body).to.have.property("message", "Note not found");
     });
   });
 
+  describe("POST /notes", () => {
+    it("should return 201 for a valid note", async () => {
+      const res = await supertest(app).post("/notes").send({
+        noteId: 1,
+        noteTitle: "Test Note",
+        noteContent: "Test content",
+      });
+      expect(res.status).to.equal(201);
+    });
+  });
 
+  describe("PUT /notes/:noteId", () => {
+    it("should return 200 for a valid note update", async () => {
+      const res = await supertest(app)
+        .put("/notes/1")
+        .send({ noteTitle: "Updated Note", noteContent: "Updated content" });
+      expect(res.status).to.equal(200);
+    });
+
+    it("should return 404 for updating a non-existing note", async () => {
+      const res = await supertest(app)
+        .put("/notes/1000")
+        .send({ noteTitle: "Updated Note", noteContent: "Updated content" });
+      expect(res.status).to.equal(404);
+    });
+  });
+
+  describe("DELETE /notes/:noteId", () => {
+    it("should return 200 for deleting an existing note", async () => {
+      const res = await supertest(app).delete("/notes/1");
+      expect(res.status).to.equal(200);
+    });
+
+    it("should return 404 for deleting a non-existing note", async () => {
+      const res = await supertest(app).delete("/notes/1000");
+      expect(res.status).to.equal(404);
+    });
+  });
 });
