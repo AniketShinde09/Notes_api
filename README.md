@@ -38,6 +38,10 @@ express: Web application framework for Node.js.
 
 sqlite3: SQLite database library.
 
+path: Link directory to database.
+
+nodemon: Starting server automatically.
+
 Install these dependencies using npm install.
 
 **Database Integration**
@@ -72,7 +76,9 @@ Returns a list of all notes names in the notes table
 ```
 [
   {
-    title: "Note1",
+    "id": 1,
+    "title": "Updated Title",
+    "content": "Updated Content"
   },
 
   ...
@@ -114,11 +120,8 @@ Returns a note based on the note ID
 #### Response
 
 ```
-{
-  id: 5,
-  title: "Note5",
-  content: "Learn HTML",
-}
+{"noteId": 6, "noteTitle": "New Note", "noteContent": "This is the content of the new note."}
+
 ```
 
 ### API 4

@@ -1,20 +1,20 @@
-### 
+### get all list of data
 GET http://localhost:3000/notes/
 
-### 
+### add new note into database
 curl -X POST -H "Content-Type: application/json" -d 
-'{"noteId": 9, "noteTitle": "New Note", "noteContent": "This is the content of the new note."}'
+'{"noteId": 6, "noteTitle": "New Note", "noteContent": "This is the content of the new note."}'
  http://localhost:3000/notes/
 
-###
+### get specific note 
 GET  http://localhost:3000/notes/9
 
 
-###
+### update existing note
 curl -X PUT -H "Content-Type: application/json"
  -d'{"noteTitle": "Updated Title", "noteContent": "Updated Content"}'
   http://localhost:3000/notes/1
 
 
-###
-DELETE http://localhost:3000/notes/8
+### delete note
+DELETE http://localhost:3000/notes/5
