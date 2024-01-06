@@ -50,9 +50,14 @@ The application is connected to an SQLite3 database to persist notes.
 
 **Testing**
 
+**Dependencies**
+
+npm install --save-dev mocha chai supertest
+
 To run tests for the application, use the following command:
 
-npm test
+npx mocha test
+
 This project includes unit and integration tests to ensure reliability and performance.
 
 **Documentation**
@@ -77,8 +82,8 @@ Returns a list of all notes names in the notes table
 [
   {
     "id": 1,
-    "title": "Updated Title",
-    "content": "Updated Content"
+    "title": "New Note",
+    "content": "This is the content of the new note"
   },
 
   ...
