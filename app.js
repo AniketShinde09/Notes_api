@@ -81,21 +81,11 @@ app.get("/notes/:noteId/", async (request, response) => {
 app.post("/notes/", async (request, response) => {
   try {
     const { noteId, noteTitle, noteContent } = request.body;
-
-    if (!noteId || !noteTitle || !noteContent) {
-      response
-        .status(400)
-        .send(
-          "Invalid request. Please provide noteId, noteTitle, and noteContent."
-        );
-      return;
-    }
-
     const postNoteQuery =
       "INSERT INTO notes (id, title, content) VALUES (?, ?, ?);";
     await database.run(postNoteQuery, [noteId, noteTitle, noteContent]);
 
-    response.status(201).send("Note Successfully Added"); // 201 status for successful creation
+    response.status(201).send("Note Successfully Added");
   } catch (error) {
     console.error("Error adding note:", error);
     response.status(500).send(`Error: ${error.message}`);
