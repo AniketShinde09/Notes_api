@@ -64,19 +64,6 @@ This project includes unit and integration tests to ensure reliability and perfo
 
 API endpoints and how to interact with them are documented below.
 
-**LINKS**
-
-Repo link :- https://github.com/AniketShinde09/Notes_api.git
-
-
-**Google dirve folder link**
-
-https://drive.google.com/file/d/15dhY3fJuDOeEOWVDXGhZSUzYmTYFP0cf/view?usp=drive_link
-
-
-l**oom video link**
-
-https://www.loom.com/share/4071f4cea449443b891df28aaaf3ef26?sid=d27936c4-af15-4c55-be3f-4842cdd2ad5f
 
 **API Endpoints**
 
